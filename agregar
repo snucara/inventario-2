@@ -1,0 +1,46 @@
+import sqlite3
+import os
+
+dirname = os.path.dirname(__file__)
+filename = os.path.join(dirname, 'CONTROL.db')
+
+base = sqlite3.connect(filename)
+c = base.cursor()
+
+def agregarstocks():
+    insumo=input("Ingresa el insumo al cual queres AGREGAR stock:")
+
+    insumo=insumo.upper()
+    c.execute('''SELECT INSUMO FROM SEGUIMIENTO''')
+    a=c.fetchall()
+
+
+    if (insumo,) in a:
+
+         stock = input("Ingresa el stock que queres AGREGAR:")
+         if stock.isdigit():
+                c.execute('''UPDATE SEGUIMIENTO SET STOCK=STOCK +{} WHERE INSUMO="{}";'''.format(stock,insumo))
+                c.execute('''UPDATE SEGUIMIENTO SET COMPRAS=COMPRAS-{} WHERE INSUMO="{}";'''.format(stock,insumo))
+                base.commit()
+
+                c.execute('''SELECT COMPRAS FROM SEGUIMIENTO WHERE INSUMO="{}";'''.format(insumo))
+                a=c.fetchall()
+                a=a[0]
+                a=a[0]
+                if a<0:
+                    a=0
+                    c.execute('''UPDATE SEGUIMIENTO SET COMPRAS={} WHERE INSUMO="{}";'''.format(a,insumo))
+                    base.commit()
+
+
+                print("--------------------------------------------")
+                print("EL STOCK HA SIDO AGREGADO SATISFACTORIAMENTE")
+                print("--------------------------------------------")
+         else:
+             print("-----------------------------------------------------------")
+             print("NO SE PUDO AGREGAR STOCK PORQUE EL INGRESO NO ES UN NUMERO")
+             print("-----------------------------------------------------------")
+    else:
+         print("-------------------------------------")
+         print("EL INSUMO NO SE ENCUENTRA EN LA LISTA")
+         print("-------------------------------------")
