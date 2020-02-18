@@ -1,0 +1,73 @@
+import sqlite3
+import os
+
+dirname = os.path.dirname(__file__)
+filename = os.path.join(dirname, 'CONTROL.db')
+
+base = sqlite3.connect(filename)
+c = base.cursor()
+
+def mostrarlistacompleta():
+    c.execute('''SELECT * FROM SEGUIMIENTO;''')
+    a=c.fetchall()
+    print("---------------------------------------------------------------------------------")
+    print("INSUMO            STOCK        COMPRAS     PUNTO DE PEDIDO     STOCK DE SEGURIDAD")
+    print("---------------------------------------------------------------------------------")
+    for i in a:
+        print(i[0],"        ",i[1],"          ",i[2],"          ",i[3],"                ",i[4])
+        print("----------------------------------------------------------------------------------")
+
+
+
+def mostrarlistafiltrada():
+    c.execute('''SELECT * FROM SEGUIMIENTO;''')
+    a=c.fetchall()
+    print("---------------------------------------------------------------------------------")
+    print("INSUMO            STOCK         COMPRAS     PUNTO DE PEDIDO    STOCK DE SEGURIDAD")
+    print("---------------------------------------------------------------------------------")
+    contador=0
+    for i in a:
+        c.execute('''SELECT STOCK FROM SEGUIMIENTO ;''')
+        a=c.fetchall()
+        a=a[contador]
+        a=a[0]
+        c.execute('''SELECT COMPRAS FROM SEGUIMIENTO;''')
+        b=c.fetchall()
+        b=b[contador]
+        b=b[0]
+        c.execute('''SELECT PUNTO_PEDIDO FROM SEGUIMIENTO ;''')
+        d=c.fetchall()
+        d=d[contador]
+        d=d[0]
+
+        if((a+b)<=d):
+             print(i[0],"        ",i[1],"           ",i[2],"             ",i[3],"            ",i[4])
+             print("----------------------------------------------------------------------------------")
+
+        contador=contador+1
+
+
+
+def mostrarlistafiltrada2():
+    c.execute('''SELECT * FROM SEGUIMIENTO;''')
+    a=c.fetchall()
+    print("---------------------------------------------------------------------------------")
+    print("INSUMO            STOCK         COMPRAS     PUNTO DE PEDIDO    STOCK DE SEGURIDAD")
+    print("---------------------------------------------------------------------------------")
+    contador=0
+    for i in a:
+        c.execute('''SELECT STOCK FROM SEGUIMIENTO ;''')
+        a=c.fetchall()
+        a=a[contador]
+        a=a[0]
+
+        c.execute('''SELECT STOCK_SEGURIDAD FROM SEGUIMIENTO ;''')
+        d=c.fetchall()
+        d=d[contador]
+        d=d[0]
+
+        if(a<=d):
+             print(i[0],"        ",i[1],"           ",i[2],"             ",i[3],"            ",i[4])
+             print("----------------------------------------------------------------------------------")
+
+        contador=contador+1
