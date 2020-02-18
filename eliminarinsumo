@@ -1,0 +1,24 @@
+import sqlite3
+import os
+
+dirname = os.path.dirname(__file__)
+filename = os.path.join(dirname, 'CONTROL.db')
+
+base = sqlite3.connect(filename)
+c = base.cursor()
+
+def eliminarinsumo():
+    insumo=input("Ingresa el nombre del insumo que queres ELIMINAR de la lista:")
+    insumo=insumo.upper()
+    c.execute('''SELECT INSUMO FROM SEGUIMIENTO;''')
+    a=c.fetchall()
+    if not (insumo,)in a:
+        print("--------------------------------------------------")
+        print("EL INSUMO NO SE ELIMINO PORQUE NO ESTA EN LA LISTA")
+        print("--------------------------------------------------")
+    else:
+         c.execute ('''DELETE FROM SEGUIMIENTO WHERE INSUMO="{}";'''.format(insumo))
+         base.commit()
+         print("----------------------------------------------------------------------------------------")
+         print("EL INSUMO,SU PUNTO DE PEDIDO Y STOCK DE SEGURIDAD HAN SIDO ELIMINADOS SATISFACTORIAMENTE")
+         print("----------------------------------------------------------------------------------------")
