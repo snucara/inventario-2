@@ -1,0 +1,79 @@
+import sqlite3
+import AGREGAR
+import DESCONTAR
+import AGREGARINSUMO
+import ELIMINARINSUMO
+import LISTA
+import COMPRAS
+import os
+
+dirname = os.path.dirname(__file__)
+filename = os.path.join(dirname, 'STOCKS.db')
+print(filename)
+base = sqlite3.connect(filename)
+c = base.cursor()
+
+def main():
+    print("        ")
+    print("-----------------------------")
+    print("PROGRAMA DE CONTROL DE STOCKS")
+    print("-----------------------------")
+    print("   ")
+
+    opcion="0"
+    while opcion != "9":
+
+         print("     ")
+         print("MENU:")
+         print("1-Agregar stoks:")
+         print("2-Consumo de stocks:")
+         print("3-Agregar insumo a la lista:")
+         print("4-Eliminar insumo de la lista:")
+         print("5-Mostrar lista de stocks completa:")
+         print("6-Mostrar lista de stocks que estan en punto de pedido:")
+         print("7-Mostrar lista de stocks que estan en situacion critica(en stock de seguridad):")
+         print("8-Agregar compras")
+         print("9-SALIR:")
+         print("        ")
+         opcion=input("Ingrese opcion:")
+
+         if(opcion=="1"):
+               os.system("cls")
+               AGREGAR.agregarstocks()
+
+         elif(opcion=="2"):
+               os.system("cls")
+               DESCONTAR.descontarstocks()
+
+         elif(opcion=="3"):
+               os.system("cls")
+               AGREGARINSUMO.agregarinsumo()
+
+         elif(opcion=="4"):
+               os.system("cls")
+               ELIMINARINSUMO.eliminarinsumo()
+
+         elif(opcion=="5"):
+               os.system("cls")
+               LISTA.mostrarlistacompleta()
+
+         elif(opcion=="6"):
+               os.system("cls")
+               LISTA.mostrarlistafiltrada()
+
+         elif (opcion == "7"):
+               os.system("cls")
+               LISTA.mostrarlistafiltrada2()
+
+         elif(opcion=="8"):
+               os.system("cls")
+               COMPRAS.agregarcompras()
+
+         else:
+             if opcion!="9":
+                  print("-------------------------------------------------")
+                  print("INGRESO INCORRECTO, POR FAVOR INTENTE NUEVAMENTE:")
+                  print("-------------------------------------------------")
+
+
+main()
