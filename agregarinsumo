@@ -1,0 +1,44 @@
+import sqlite3
+import os
+
+dirname = os.path.dirname(__file__)
+filename = os.path.join(dirname, 'CONTROL.db')
+
+base = sqlite3.connect(filename)
+c = base.cursor()
+
+def agregarinsumo():
+    insumo=input("Ingresa el nombre del insumo que queres AGREGAR a la lista:")
+    insumo=insumo.upper()
+    c.execute('''SELECT INSUMO FROM SEGUIMIENTO;''')
+    a=c.fetchall()
+    if (insumo,)in a:
+         print("-------------------------------------------------")
+         print("EL INSUMO NO SE AGREGO PORQUE YA ESTA EN LA LISTA")
+         print("-------------------------------------------------")
+    else:
+        while True:
+             puntodepedido=input("Ingresa el punto de pedido del insumo:")
+             if puntodepedido.isdigit():
+                  break
+             else:
+                  print("----------------------------------------------")
+                  print("EL INGRESO NO ES UN NUMERO,INTENTE NUEVAMENTE:")
+                  print("----------------------------------------------")
+        while True:
+             stockdeseguridad=input("ingresa el stock de seguridad del insumo:")
+             if stockdeseguridad.isdigit():
+                  break
+             else:
+                  print("----------------------------------------------")
+                  print("EL INGRESO NO ES UN NUMERO,INTENTE NUEVAMENTE:")
+                  print("----------------------------------------------")
+
+
+
+        c.execute('''INSERT INTO SEGUIMIENTO(INSUMO,STOCK,COMPRAS,PUNTO_PEDIDO,STOCK_SEGURIDAD) VALUES
+                       ("{}",0,0,{},{});'''.format(insumo,puntodepedido,stockdeseguridad))
+        base.commit()
+        print("---------------------------------------------------------------------------------------")
+        print("EL INSUMO,SU PUNTO DE PEDIDO Y STOCK DE SEGURIDAD HAN SIDO AGREGADOS SATISFACTORIAMENTE")
+        print("---------------------------------------------------------------------------------------")
